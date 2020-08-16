@@ -7,7 +7,214 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+html, body {
+  background-color: #F2F1F0;
+  overflow: hidden;
+  height: 100%;
+}
+
+#root {
+  height: 100%;
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 0px;
+}
+
+.game {
+  display: flex;
+  flex-grow: 1;
+  flex-wrap: wrap;
+  /* border-spacing: 4px; */
+  margin: -6px 28px -6px -6px;
+  width: calc(100vmin - 40px);
+  height: calc(100vmin - 40px);
+  box-sizing: border-box;
+}
+
+.game-menu-button-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.game-menu-item-container {
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+}
+
+.game-menu {
+  width: 150px;
+  height: calc(100vmin - 40px);
+  display: flex;
+  flex-direction: column;
+  fill: #6d6d6d;
+  color: #6d6d6d;
+}
+
+.game-menu-button-container > button {
+  border-radius: 4px;
+  padding: 20px 8px;
+  flex-grow: 1;
+  margin-bottom: 8px;
+}
+
+.menu-icon {
+  width: 32px;
+  height: 32px;
+  margin-bottom: 4px;
+}
+
+.menu-content {
+  width: inherit;
+  display: flex;
+  flex-direction: column;
+  height: fit-content;
+}
+
+.game-menu-item {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.game-menu-item:not(:last-child) {
+  margin-bottom: 16px;
+}
+
+.menu {
+  width: calc(100vmin - 40px);
+  height: calc(100vmin - 40px);
+  display: flex;
+  flex-direction: column;
+}
+
+.menu-button-row{
+  flex-grow: 1;
+  display: flex;
+}
+
+.menu-button-row:not(:last-child) {
+  margin-bottom: 20px;
+}
+
+button.menu-button {
+  border-radius: 8px;
+  width: 50%;
+}
+
+button:hover {
+  border-color: #CF744E;
+}
+
+button.menu-button:not(:last-child) {
+  margin-right: 20px;
+}
+
+button.menu-button > p {
+  font-size: 20px;
+  letter-spacing: 0.04em;
+}
+
+button.menu-button > p.label {
+  letter-spacing: 0;
+  font-size: 16px;
+}
+
+.number-input *:first-child {
+  max-width: 46px;
+  border-radius: 4px 0 0 4px;
+  /* border-width: 1px 0px 1px 1px; */
+  padding-left: 8px;
+}
+
+div.number-input {
+  border: 1px solid #b7b7b7;
+  border-radius: 4px;
+  height: 28px;
+  width: fit-content;
+}
+
+div.number-input:hover {
+  border-color: #CF744E;
+}
+
+.number-input *:last-child {
+  border-radius: 0 4px 4px 0;
+  border-width: 1px 1px 1px 0;
+  min-width: 32px;
+}
+
+.number-input * {
+  height: 100%;
+  border: none;
+  font-size: 14px;
+  min-width: 28px;
+}
+
+.number-input *:not(:first-child):not(:last-child) {
+  border: 1px solid #b7b7b7;
+  border-width: 0 1px 0 1px;
+}
+
+button.btn.number-input {
+  background: #F2F1F0;
+}
+
+button {
+  background: linear-gradient(#FBFBFA, #F0EFEF);
+  border: 1px solid #b7b7b7;
+  cursor: pointer;
+  padding: 0;
+}
+
+.menu-custom-game-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.menu-custom-game-item-container {
+  margin-bottom: 20px;
+}
+
+.menu-custom-game-item-container *:not(:last-child) {
+  margin-bottom: 8px;
+}
+
+.menu-custom-game-item span {
+  font-size: 14px;
+}
+
+* {
+  color: #313739;
+  box-sizing: border-box;
+}
+
+.menu-custom-game {
+  max-width: 272px;
+  width: 272px;
+}
+
+.menu-custom-game-item-container > button {
+  border-radius: 8px;
+  width: 100%;
+  height: 28px;
+}
+
+.game-container {
+  display: flex;
+}
+
+p {
+  font-size: 14px;
+  margin: 0;
+}
+
+button:disabled {
+  background: #EBEBEB;
+  border-color: #D2D2D2;
+  color: #A5ABA3;
+  cursor: default;
 }

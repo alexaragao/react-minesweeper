@@ -1,0 +1,59 @@
+.slot {
+  /* border: 1px solid black; */
+  padding: 2px;
+  display: flex;
+  flex-grow: 0;
+  box-sizing: border-box;
+}
+
+.slot-content.reveal {
+  background: #888A85;
+}
+
+.slot-content {
+  transition: 300ms;
+  background-color: #BABDB6;
+  border-radius: 4px;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.slot-content:not(.reveal):hover {
+  background: #D2D6CE;
+  cursor: pointer;
+}
+
+.slot-content:not(.selected):active {
+  -webkit-box-shadow: inset 0px 2px 0px 0px #A5ABA3;
+  -moz-box-shadow: inset 0px 2px 0px 0px #A5ABA3;
+  box-shadow: inset 0px 2px 0 0px #A5ABA3;
+}
+
+.slot-icon {
+  max-width: 60%;
+  max-height: 60%;
+  width: 60%;
+  height: 60%;
+  fill: #313739;
+  pointer-events: none;
+}
+
+.slot-icon.exploded {
+  fill: #CC0000;
+}
+
+.slot-content.selected {
+  background: #DDDDDB;
+}
+
+.slot-content.selected:hover {
+  cursor: default;
+}
+
+.slot-content > span {
+  font-weight: bold;
+  font-size: 3rem;
+}
