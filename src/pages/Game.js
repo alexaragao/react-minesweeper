@@ -35,12 +35,6 @@ const Game = (props) => {
     history.push("/");
   }
 
-  // React.useEffect(() => {
-  //   if (minesweeper) {
-  //     console.log(minesweeper);
-  //   }
-  // }, [minesweeper]);
-
   React.useState(() => {
     console.log("Getting data...");
     const query = new URLSearchParams(props.location.search);
@@ -57,10 +51,6 @@ const Game = (props) => {
     } else {
       return null;
     }
-    // setMinesweeper(Array(data.height * data.width).fill({
-    //   isBomb: false,
-    //   value: 0
-    // }));
     setData(data);
   }, []);
 
@@ -79,12 +69,15 @@ const Game = (props) => {
 
   const getNearSlots = (index, max) => {
     const near = [];
-    const m = Math.floor(index / data.width);
+    const row = Math.floor(index / data.width);
     for (let i = -1; i <= 1; i++) {
       const px = index + i;
-      if ((m + 1) * data.width > px && px >= m * data.width) {
+      
+      // Validar se px está na mesma linha que index
+      const px_row = Math.floor(px / data.width);
+      if (row === px_row) {
         for (let j = -1; j <= 1; j++) {
-          const bombSlot = px + (j * data.height);
+          const bombSlot = px + (j * data.width);
           if (bombSlot >= 0 && bombSlot < max) {
             near.push(bombSlot);
           }
@@ -112,7 +105,6 @@ const Game = (props) => {
         indexes.splice(randomIndex, 1);
         mines.push(randomElement);
       }
-      console.log(mines);
 
       minesweeper = minesweeper.map((v, i) => mines.includes(i) ? ({
         isPressed: false,
@@ -128,12 +120,10 @@ const Game = (props) => {
       setMinesweeper(minesweeper);
       handleTimeChange();
       return;
-      // console.log(mines);
-      // console.log(temp);
-      // setMinesweeper(old => old.map((v, i) => mines.includes(i) ? ({ ...v, isBomb: true }) : ({ ...v, value: getNearSlots(i, old.length).filter(s => mines.includes(s)).length })));
     }
     if (minesweeper[index].isBomb) {
       setIsGameEnd(true);
+      clearTimeout(timer);
     }
     setMinesweeper(propague(index, minesweeper.map(i => i)));
   }
@@ -141,7 +131,6 @@ const Game = (props) => {
   const propague = (index, minesweeper) => {
     const current = minesweeper[index];
     minesweeper[index] = { ...current, isPressed: true };
-
     if (current.value === 0) {
       getNearSlots(index, minesweeper.length).forEach(s => {
         const near = minesweeper[s];
@@ -154,10 +143,6 @@ const Game = (props) => {
       });
     }
     return minesweeper;
-  }
-
-  const handleSlotAuxClick = (isProteced) => {
-    setFlatCount(old => old + (isProteced ? 1 : -1));
   }
 
   const changeFlags = (amount) => {
@@ -184,19 +169,20 @@ const Game = (props) => {
       + sec.toString().padStart(2, 0)
   }
 
+  const slotStyle = {
+    flexBasis: `${100 / data.width}%`,
+    width: (window.innerHeight - 40) / data.height,
+    height: (window.innerHeight - 40) / data.height,
+  }
+
   return (
     <div className="game-container">
-      <div className="game">
+      <div className="game" style={{maxWidth: slotStyle.height * data.width}}>
         {minesweeper ? (
           minesweeper.map((slot, index) => (
             <Slot
-              // isBomb={minesArray.includes(minesweeper[ri][ci])}
               index={index}
-              style={{
-                flexBasis: `${100 / data.width}%`,
-                minWidth: `${100 / data.width}%`,
-                minHeight: `${100 / data.width}%`
-              }}
+              style={slotStyle}
               onClick={handleSlotClick(index)}
               isFlagLimit={data.mines === flagCount}
               changeFlags={changeFlags}
@@ -207,11 +193,7 @@ const Game = (props) => {
             Array(data.width * data.height).fill().map((slot, index) => (
               <Slot
                 index={index}
-                style={{
-                  flexBasis: `${100 / data.width}%`,
-                  minWidth: `${100 / data.width}%`,
-                  minHeight: `${100 / data.width}%`
-                }}
+                style={slotStyle}
                 onClick={handleSlotClick(index)}
                 isFlagLimit={data.mines === flagCount}
                 changeFlags={changeFlags}
@@ -247,7 +229,7 @@ const Game = (props) => {
         <div className="game-menu-button-container">
         <button disabled={!isGameStarted} onClick={handleRestart}>Recomeçar</button>
         <button onClick={handleChangeDifficulty}>Alterar dificuldade</button>
-        <button onClick={handlePause}>{isPaused ? "Continuar" : "Pausar"}</button>
+        <button disabled={!isGameStarted} onClick={handlePause}>{isPaused ? "Continuar" : "Pausar"}</button>
         </div>
       </div>
     </div>

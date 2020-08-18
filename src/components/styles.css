@@ -1,8 +1,7 @@
 .slot {
-  /* border: 1px solid black; */
   padding: 2px;
   display: flex;
-  flex-grow: 0;
+  flex-grow: 1;
   box-sizing: border-box;
 }
 

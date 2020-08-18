@@ -28,7 +28,7 @@ html, body {
   flex-wrap: wrap;
   /* border-spacing: 4px; */
   margin: -6px 28px -6px -6px;
-  width: calc(100vmin - 40px);
+  max-width: calc(100vw - 218px);
   height: calc(100vmin - 40px);
   box-sizing: border-box;
 }
