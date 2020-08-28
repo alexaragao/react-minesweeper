@@ -137,13 +137,12 @@ const Game = (props) => {
       return;
     }
     if (minesweeper[index].isBomb) {
-      setGameState(state.ENDED_LOSED);
-      clearTimeout(timer);
+      handleLose();
     }
     const updatedMinesweeper = propague(index, minesweeper.map(i => i));
     setMinesweeper(updatedMinesweeper);
     if (updatedMinesweeper.filter(s => s.isPressed && !s.isBomb).length === data.width * data.height - data.mines) {
-      onWin();
+      handleWin();
     }
   }
 
@@ -165,15 +164,21 @@ const Game = (props) => {
     return minesweeper;
   }
 
-  function onWin() {
-    setGameState(state.ENDED_WINNED);
-    alert("You win! Total time: " + getTime(time));
-  }
-
   const changeFlags = (amount) => {
     setFlatCount(old => old + amount);
   }
 
+
+  function handleWin() {
+    setGameState(state.ENDED_WINNED);
+    clearTimeout(timer);
+    alert("Você venceu! Tempo total: " + getTime(time));
+  }
+
+  const handleLose = () => {
+    setGameState(state.ENDED_LOSED);
+    clearTimeout(timer);
+  }
   const handlePause = () => {
     setGameState(old => old === state.PAUSED ? state.STARTED : state.PAUSED);
     if (gameState === state.STARTED) {
