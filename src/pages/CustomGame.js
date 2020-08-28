@@ -56,7 +56,11 @@ const CustomGame = (props) => {
   }
 
   const handleStartGame = () => {
-    history.push(`/play?width=${data.width}&height=${data.height}&mines=${calcMines(data.percent)}`)
+    if (data.height > data.width) {
+      alert("A altura do tabuleiro não deve ser menor que sua largura");
+      return;
+    }
+    history.push(`/react-minesweeper/play?width=${data.width}&height=${data.height}&mines=${calcMines(data.percent)}`)
   }
 
   const calcMines = (percent) => Math.floor(percent / 100 * data.height * data.width);

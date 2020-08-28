@@ -1,3 +1,7 @@
+[data-scale='1.x'] {
+  --scale: 1.8;
+}
+
 .slot {
   padding: 2px;
   display: flex;
@@ -54,5 +58,6 @@
 
 .slot-content > span {
   font-weight: bold;
-  font-size: 3rem;
+  font-size: 28px;
+  scale: var(--scale);
 }

@@ -5,11 +5,11 @@ const MenuButton = ({ width, height, mines, custom }) => {
   const history = useHistory();
 
   const handleClick = () => {
-    history.push(`/play?width=${width}&height=${height}&mines=${mines}`);
+    history.push(`/react-minesweeper/play?width=${width}&height=${height}&mines=${mines}`);
   }
 
   const handleCustomClick = () => {
-    history.push('custom');
+    history.push('/react-minesweeper/custom');
   }
 
   return custom ? (

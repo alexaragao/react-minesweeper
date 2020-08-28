@@ -22,6 +22,22 @@ html, body {
   padding: 20px 0px;
 }
 
+.game.paused {
+  background-color: #CCCFC9;
+}
+
+.game.paused *:not(span) {
+  opacity: 0;
+  pointer-events: none;
+  cursor: default;
+}
+
+.game > span {
+  color: white;
+  font-size: 24px;
+  position: absolute;
+}
+
 .game {
   display: flex;
   flex-grow: 1;
@@ -31,6 +47,9 @@ html, body {
   max-width: calc(100vw - 218px);
   height: calc(100vmin - 40px);
   box-sizing: border-box;
+  justify-content: center;
+  align-items: center;
+  position: relative;
 }
 
 .game-menu-button-container {

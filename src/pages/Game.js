@@ -8,31 +8,36 @@ import { ReactComponent as Flag } from '../imgs/flag.svg';
 // Importing components
 import Slot from '../components/Slot';
 
+const state = {
+  LOADED: 0,
+  STARTED: 1,
+  PAUSED: 2,
+  ENDED_LOSED: 3,
+  ENDED_WINNED: 4
+}
+
 const Game = (props) => {
   const history = useHistory();
+
   const [minesweeper, setMinesweeper] = React.useState(null);
   const [flagCount, setFlatCount] = React.useState(0);
   const [data, setData] = React.useState(null);
-  
-  const [isGameEnd, setIsGameEnd] = React.useState(false);
-  const [isGameStarted, setIsGameStarted] = React.useState(false);
-  const [isPaused, setIsPaused] = React.useState(false);
+
+  const [gameState, setGameState] = React.useState(state.LOADED);
   const [time, setTime] = React.useState(0);
   const [timer, setTimer] = React.useState(null);
 
   const handleRestart = () => {
     clearTimeout(timer);
-    setMinesweeper(null);
+    setMinesweeper(Array(data.width * data.height).fill());
     setFlatCount(0);
-    setIsGameEnd(false);
-    setIsGameStarted(false);
-    setIsPaused(false);
+    setGameState(state.LOADED);
     setTime(0);
     setTimer(null);
   }
 
   const handleChangeDifficulty = () => {
-    history.push("/");
+    history.push("/react-minesweeper");
   }
 
   React.useState(() => {
@@ -45,13 +50,21 @@ const Game = (props) => {
     }
     const { width, height, mines } = data;
     if (!isNaN(width) && !isNaN(height) && !isNaN(mines)) {
-      if ((100 < width || width < 4) || (100 < height || height < 4) || (Math.floor(width * height - 9) < mines || mines < 0)) {
+      if ((40 < width || width < 4) || (30 < height || height < 4) || (Math.floor(width * height - 9) < mines || mines < 0) || (width < height)) {
+        alert("Entradas inválidas.");
         return null;
       }
     } else {
       return null;
     }
+
+    if (height < 10) {
+      document.documentElement.setAttribute('data-scale', '1.x');
+    } else {
+      document.documentElement.removeAttribute('data-scale');
+    }
     setData(data);
+    setMinesweeper(Array(data.width * data.height).fill());
   }, []);
 
   const handleTimeChange = () => {
@@ -64,7 +77,7 @@ const Game = (props) => {
   }
 
   if (!data) {
-    return <Redirect to="/" />;
+    return <Redirect to="/react-minesweeper/custom" />;
   }
 
   const getNearSlots = (index, max) => {
@@ -72,7 +85,7 @@ const Game = (props) => {
     const row = Math.floor(index / data.width);
     for (let i = -1; i <= 1; i++) {
       const px = index + i;
-      
+
       // Validar se px está na mesma linha que index
       const px_row = Math.floor(px / data.width);
       if (row === px_row) {
@@ -89,10 +102,13 @@ const Game = (props) => {
   }
 
   const handleSlotClick = (index) => () => {
-    if (!isGameStarted) {
+    if (gameState === state.ENDED_LOSED || gameState === state.ENDED_WINNED) {
+      return;
+    }
+    if (gameState === 0) {
       let minesweeper = Array(data.width * data.height).fill();
       const indexes = minesweeper.map((v, i) => i);
-      setIsGameStarted(true);
+      setGameState(state.STARTED);
 
       getNearSlots(index, indexes.length).forEach(s => {
         indexes.splice(indexes.indexOf(s), 1);
@@ -122,10 +138,14 @@ const Game = (props) => {
       return;
     }
     if (minesweeper[index].isBomb) {
-      setIsGameEnd(true);
+      setGameState(state.ENDED_LOSED);
       clearTimeout(timer);
     }
-    setMinesweeper(propague(index, minesweeper.map(i => i)));
+    const updatedMinesweeper = propague(index, minesweeper.map(i => i));
+    setMinesweeper(updatedMinesweeper);
+    if (updatedMinesweeper.filter(s => s.isPressed && !s.isBomb).length === data.width * data.height - data.mines) {
+      onWin();
+    }
   }
 
   const propague = (index, minesweeper) => {
@@ -142,7 +162,13 @@ const Game = (props) => {
         }
       });
     }
+
     return minesweeper;
+  }
+
+  function onWin() {
+    setGameState(state.ENDED_WINNED);
+    alert("You win! Total time: " + getTime(time));
   }
 
   const changeFlags = (amount) => {
@@ -150,8 +176,8 @@ const Game = (props) => {
   }
 
   const handlePause = () => {
-    setIsPaused(old => !old);
-    if (!isPaused) {
+    setGameState(old => old === state.PAUSED ? state.STARTED : state.PAUSED);
+    if (gameState === state.STARTED) {
       clearTimeout(timer);
     } else {
       handleTimeChange();
@@ -177,59 +203,36 @@ const Game = (props) => {
 
   return (
     <div className="game-container">
-      <div className="game" style={{maxWidth: slotStyle.height * data.width}}>
-        {minesweeper ? (
-          minesweeper.map((slot, index) => (
-            <Slot
-              index={index}
-              style={slotStyle}
-              onClick={handleSlotClick(index)}
-              isFlagLimit={data.mines === flagCount}
-              changeFlags={changeFlags}
-              isGameEnd={isGameEnd}
-              {...slot}
-            />
-          ))) : (
-            Array(data.width * data.height).fill().map((slot, index) => (
-              <Slot
-                index={index}
-                style={slotStyle}
-                onClick={handleSlotClick(index)}
-                isFlagLimit={data.mines === flagCount}
-                changeFlags={changeFlags}
-                {...slot}
-              />
-            ))
-          )}
-        {/* {minesweeper.map((r, ri) => (
-          <div className="slot-row">
-            {r.map((c, ci) => (
-              <Slot
-                // isBomb={minesArray.includes(minesweeper[ri][ci])}
-                state={c}
-                onStateChange={handleStateChange(ri, ci)}
-                handleSlotClick={handleSlotClick(ri, ci)}
-                handleSlotAuxClick={handleSlotAuxClick}
-              />
-            ))}
-          </div>
-        ))} */}
+      <div className={gameState === state.PAUSED ? "game paused" : "game"} style={{ maxWidth: slotStyle.height * data.width }}>
+        {minesweeper.map((slot, index) => (
+          <Slot
+            index={index}
+            style={slotStyle}
+            onClick={handleSlotClick(index)}
+            isFlagLimit={data.mines === flagCount}
+            changeFlags={changeFlags}
+            gameState={gameState}
+            {...slot}
+          />
+        ))
+        }
+        {gameState === state.PAUSED && <span className="paused-text">Pausado</span>}
       </div>
       <div className="game-menu">
         <div className="game-menu-item-container">
-        <div className="game-menu-item">
-          <Flag className="menu-icon" />
-          <p>{`${flagCount}/${data.mines}`}</p>
-        </div>
-        <div className="game-menu-item">
-          <Clock className="menu-icon" />
-          <p>{getTime(time)}</p>
-        </div>
+          <div className="game-menu-item">
+            <Flag className="menu-icon" />
+            <p>{`${flagCount}/${data.mines}`}</p>
+          </div>
+          <div className="game-menu-item">
+            <Clock className="menu-icon" />
+            <p>{getTime(time)}</p>
+          </div>
         </div>
         <div className="game-menu-button-container">
-        <button disabled={!isGameStarted} onClick={handleRestart}>Recomeçar</button>
-        <button onClick={handleChangeDifficulty}>Alterar dificuldade</button>
-        <button disabled={!isGameStarted} onClick={handlePause}>{isPaused ? "Continuar" : "Pausar"}</button>
+          <button disabled={gameState === 0} onClick={handleRestart}>Recomeçar</button>
+          <button onClick={handleChangeDifficulty}>Alterar dificuldade</button>
+          <button disabled={gameState === 0} onClick={handlePause}>{gameState !== state.STARTED ? "Continuar" : "Pausar"}</button>
         </div>
       </div>
     </div>
