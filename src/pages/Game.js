@@ -41,7 +41,6 @@ const Game = (props) => {
   }
 
   React.useState(() => {
-    console.log("Getting data...");
     const query = new URLSearchParams(props.location.search);
 
     const data = {};
