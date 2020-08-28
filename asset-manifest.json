@@ -1,17 +1,17 @@
 {
   "files": {
-    "main.css": "/react-minesweeper/static/css/main.2334f762.chunk.css",
-    "main.js": "/react-minesweeper/static/js/main.e7666520.chunk.js",
-    "main.js.map": "/react-minesweeper/static/js/main.e7666520.chunk.js.map",
+    "main.css": "/react-minesweeper/static/css/main.3a39bfbb.chunk.css",
+    "main.js": "/react-minesweeper/static/js/main.1b34fbd0.chunk.js",
+    "main.js.map": "/react-minesweeper/static/js/main.1b34fbd0.chunk.js.map",
     "runtime-main.js": "/react-minesweeper/static/js/runtime-main.4a604056.js",
     "runtime-main.js.map": "/react-minesweeper/static/js/runtime-main.4a604056.js.map",
-    "static/js/2.9a98c704.chunk.js": "/react-minesweeper/static/js/2.9a98c704.chunk.js",
-    "static/js/2.9a98c704.chunk.js.map": "/react-minesweeper/static/js/2.9a98c704.chunk.js.map",
+    "static/js/2.93e06cc6.chunk.js": "/react-minesweeper/static/js/2.93e06cc6.chunk.js",
+    "static/js/2.93e06cc6.chunk.js.map": "/react-minesweeper/static/js/2.93e06cc6.chunk.js.map",
     "index.html": "/react-minesweeper/index.html",
-    "precache-manifest.efc7771bc372a3dbb36eaf816fb86029.js": "/react-minesweeper/precache-manifest.efc7771bc372a3dbb36eaf816fb86029.js",
+    "precache-manifest.a4105ec9c443ffb010b639de4d9df0be.js": "/react-minesweeper/precache-manifest.a4105ec9c443ffb010b639de4d9df0be.js",
     "service-worker.js": "/react-minesweeper/service-worker.js",
-    "static/css/main.2334f762.chunk.css.map": "/react-minesweeper/static/css/main.2334f762.chunk.css.map",
-    "static/js/2.9a98c704.chunk.js.LICENSE.txt": "/react-minesweeper/static/js/2.9a98c704.chunk.js.LICENSE.txt",
+    "static/css/main.3a39bfbb.chunk.css.map": "/react-minesweeper/static/css/main.3a39bfbb.chunk.css.map",
+    "static/js/2.93e06cc6.chunk.js.LICENSE.txt": "/react-minesweeper/static/js/2.93e06cc6.chunk.js.LICENSE.txt",
     "static/media/bomb.f9ca5a94.svg": "/react-minesweeper/static/media/bomb.f9ca5a94.svg",
     "static/media/clock.35d9cc9f.svg": "/react-minesweeper/static/media/clock.35d9cc9f.svg",
     "static/media/flag.d69e7f58.svg": "/react-minesweeper/static/media/flag.d69e7f58.svg",
@@ -19,8 +19,8 @@
   },
   "entrypoints": [
     "static/js/runtime-main.4a604056.js",
-    "static/js/2.9a98c704.chunk.js",
-    "static/css/main.2334f762.chunk.css",
-    "static/js/main.e7666520.chunk.js"
+    "static/js/2.93e06cc6.chunk.js",
+    "static/css/main.3a39bfbb.chunk.css",
+    "static/js/main.1b34fbd0.chunk.js"
   ]
 }
